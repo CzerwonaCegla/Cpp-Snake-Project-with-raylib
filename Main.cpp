@@ -18,6 +18,14 @@ public:
 		currentDirection.x = 0;
 		currentDirection.y = 0;
 	}
+
+	void Move()
+	{
+		if (IsKeyDown(KEY_UP))
+		{
+
+		}
+	}
 };
 
 int main()
@@ -30,7 +38,9 @@ int main()
 
 	while (!WindowShouldClose())
 	{
-
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+		EndDrawing();
 	}
 
 	CloseWindow();
