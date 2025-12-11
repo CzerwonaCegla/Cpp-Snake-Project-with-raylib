@@ -31,6 +31,7 @@ int main()
 	int height = 700;
 	int width = 1200;
 	std::string name = "Snake";
+	const int gridWidth = 50;
 	SetTargetFPS(60);
 	InitWindow(width, height, name.c_str());
 	Vector2 objPos = { 0.0, 0.0 };
@@ -55,19 +56,21 @@ int main()
 			t = 0.0;
 
 			// check for inputs
-			if (/*IsKeyDown(KEY_UP) || */loggedKey == 1) { addToPos = {0.0, 0.0}; addToPos.y = -50;}
-			else if (/*IsKeyDown(KEY_DOWN) || */loggedKey == 2) { addToPos = { 0.0, 0.0 }; addToPos.y = 50.0;}
-			else if (/*IsKeyDown(KEY_RIGHT) || */loggedKey == 3) { addToPos = { 0.0, 0.0 }; addToPos.x = 50.0;}
-			else if (/*IsKeyDown(KEY_LEFT) || */loggedKey == 4) { addToPos = { 0.0, 0.0 }; addToPos.x = -50.0;}
+			if (/*IsKeyDown(KEY_UP) || */loggedKey == 1) { addToPos = {0.0, 0.0}; addToPos.y = -gridWidth;}
+			else if (/*IsKeyDown(KEY_DOWN) || */loggedKey == 2) { addToPos = { 0.0, 0.0 }; addToPos.y = gridWidth;}
+			else if (/*IsKeyDown(KEY_RIGHT) || */loggedKey == 3) { addToPos = { 0.0, 0.0 }; addToPos.x = gridWidth;}
+			else if (/*IsKeyDown(KEY_LEFT) || */loggedKey == 4) { addToPos = { 0.0, 0.0 }; addToPos.x = -gridWidth;}
 			loggedKey = 0;
 			targetPos += addToPos;
+			if (targetPos.x < 0.0 || targetPos.x > (float)(width-gridWidth)) { targetPos.x -= addToPos.x; }
+			if (targetPos.y < 0.0 || targetPos.y > (float)(height-gridWidth)) { targetPos.y -= addToPos.y; }
 		}
 		if (t < 1.0) { t += GetFrameTime()/moveToPosTime; }
 		currentPos = Vector2Lerp(objPos, targetPos, t);
 		// Draw start -------------------
 		BeginDrawing();
 		ClearBackground(DARKGREEN);
-		DrawRectangle(currentPos.x, currentPos.y, 50, 50, BLUE);
+		DrawRectangle(currentPos.x, currentPos.y, gridWidth, gridWidth, BLUE);
 		EndDrawing();
 		// Draw end ---------------------
 	}
