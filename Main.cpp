@@ -5,12 +5,14 @@
 
 class Snake
 {
+	int keyPressed;
 	int length;
 	std::vector<Vector2> snakeCoords;
 	Vector2 currentDirection;
 public:
 	Snake()
 	{
+		keyPressed = 0;
 		length = 1;
 		Vector2 initialSnakePos;
 		initialSnakePos.x = 0;
@@ -23,6 +25,11 @@ public:
 	void Move()
 	{
 		if (IsKeyDown(KEY_UP)) {}
+	}
+
+	void Draw()
+	{
+
 	}
 };
 
@@ -39,7 +46,7 @@ int main()
 	Vector2 targetPos = { 0.0,0.0 };
 	Vector2 addToPos = { 0.0, 0.0 };
 	float t = 0.0;
-	float moveToPosTime = 0.4;
+	float moveToPosTime = 0.5;
 	int loggedKey = 0;
 	while (!WindowShouldClose())
 	{
