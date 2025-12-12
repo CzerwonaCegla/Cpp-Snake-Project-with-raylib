@@ -49,14 +49,14 @@ int main()
 		else if (IsKeyDown(KEY_RIGHT)) { loggedKey = 3; }
 		else if (IsKeyDown(KEY_LEFT)) { loggedKey = 4; }
 
-		if (Vector2Distance(currentPos, targetPos) < 0.01)
+		if (Vector2Distance(currentPos, targetPos) < 0.05)
 		{
 			// snap objPos to targetPos when close
 			objPos = targetPos;
 			t = 0.0;
 
 			// check for inputs
-			if (/*IsKeyDown(KEY_UP) || */loggedKey == 1) { addToPos = {0.0, 0.0}; addToPos.y = -gridWidth;}
+			if (/*IsKeyDown(KEY_UP) || */loggedKey == 1) { addToPos = { 0.0, 0.0 }; addToPos.y = -gridWidth; }
 			else if (/*IsKeyDown(KEY_DOWN) || */loggedKey == 2) { addToPos = { 0.0, 0.0 }; addToPos.y = gridWidth;}
 			else if (/*IsKeyDown(KEY_RIGHT) || */loggedKey == 3) { addToPos = { 0.0, 0.0 }; addToPos.x = gridWidth;}
 			else if (/*IsKeyDown(KEY_LEFT) || */loggedKey == 4) { addToPos = { 0.0, 0.0 }; addToPos.x = -gridWidth;}
@@ -65,8 +65,12 @@ int main()
 			if (targetPos.x < 0.0 || targetPos.x > (float)(width-gridWidth)) { targetPos.x -= addToPos.x; }
 			if (targetPos.y < 0.0 || targetPos.y > (float)(height-gridWidth)) { targetPos.y -= addToPos.y; }
 		}
-		if (t < 1.0) { t += GetFrameTime()/moveToPosTime; }
-		currentPos = Vector2Lerp(objPos, targetPos, t);
+		else
+		{
+			if (t < 1.0) { t += GetFrameTime()/moveToPosTime; }
+			if (t > 1.0) { t = 1.0; }
+			currentPos = Vector2Lerp(objPos, targetPos, t);
+		}
 		// Draw start -------------------
 		BeginDrawing();
 		ClearBackground(DARKGREEN);
