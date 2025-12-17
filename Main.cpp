@@ -76,7 +76,7 @@ public:
 
 	void addSnakePart()
 	{
-
+		snakePartsCoords.push_back(tailSpawnPos);
 	}
 
 	void moveSnake()
@@ -134,6 +134,10 @@ int main()
 	// MAIN GAME LOOP
 	while (!WindowShouldClose())
 	{
+		if (IsKeyDown(KEY_SPACE))
+		{
+			snake.addSnakePart();
+		}
 		snake.moveSnake();
 
 		// Draw start -------------------
