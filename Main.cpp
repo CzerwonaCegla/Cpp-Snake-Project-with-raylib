@@ -3,44 +3,66 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#define GRID_WIDTH 50
+
+using namespace std;
+
 class Snake
 {
-	int keyPressed;
 	int length;
-	std::vector<Vector2> snakeCoords;
-	Vector2 currentDirection;
+	vector<Vector2> snakeCoords;
+	Vector2 targetVector;
 public:
 	Snake()
 	{
-		keyPressed = 0;
 		length = 1;
 		Vector2 initialSnakePos;
 		initialSnakePos.x = 0;
 		initialSnakePos.y = 0;
 		snakeCoords.push_back(initialSnakePos);
-		currentDirection.x = 0;
-		currentDirection.y = 0;
+		targetVector.x = 0;
+		targetVector.y = 0;
+	}
+	
+	Snake(Vector2 startingPosVector)
+	{
+		length = 1;
+		Vector2 initialSnakePos = startingPosVector;
+		snakeCoords.push_back(initialSnakePos);
+		targetVector = initialSnakePos;
 	}
 
-	void Move()
+	Vector2 getTargetVectorFromInput()
 	{
-		if (IsKeyDown(KEY_UP)) {}
+		Vector2 targetVector = { 0,0 };
+		if (IsKeyDown(KEY_UP)) { targetVector.y += GRID_WIDTH; }
+		else if (IsKeyDown(KEY_DOWN)) { targetVector.y += GRID_WIDTH; }
+		else if (IsKeyDown(KEY_RIGHT)) { targetVector.x += GRID_WIDTH; }
+		else if (IsKeyDown(KEY_LEFT)) { targetVector.x += GRID_WIDTH; }
+		return targetVector;
 	}
 
-	void Draw()
+	void moveSnake()
 	{
 
+	}
+
+	void drawSnake()
+	{
+		
 	}
 };
 
 int main()
 {
-	int height = 700;
-	int width = 1200;
+	int height = 750;
+	int width = 1250;
 	std::string name = "Snake";
-	const int gridWidth = 50;
+	const int gridWidth = GRID_WIDTH;
 	SetTargetFPS(60);
 	InitWindow(width, height, name.c_str());
+	// DO NOT TOUCH CODE ABOVE FOR NOW
+
 	Vector2 objPos = { 0.0, 0.0 };
 	Vector2 currentPos = objPos;
 	Vector2 targetPos = { 0.0,0.0 };
@@ -48,6 +70,8 @@ int main()
 	float t = 0.0;
 	float moveToPosTime = 0.5;
 	int loggedKey = 0;
+
+	// MAIN GAME LOOP DO NOT TOUCH
 	while (!WindowShouldClose())
 	{
 		// log keys earlier than meets conditions for better input
@@ -78,6 +102,8 @@ int main()
 			if (t > 1.0) { t = 1.0; }
 			currentPos = Vector2Lerp(objPos, targetPos, t);
 		}
+
+		// DO NOT TOUCH CODE BELOW FOR NOW
 		// Draw start -------------------
 		BeginDrawing();
 		ClearBackground(DARKGREEN);
@@ -85,6 +111,7 @@ int main()
 		EndDrawing();
 		// Draw end ---------------------
 	}
+
 
 	CloseWindow();
 	return 0;
