@@ -9,26 +9,20 @@ using namespace std;
 
 class Snake
 {
-	int length;
-	vector<Vector2> snakeCoords;
+	vector<Vector2> snakePartsCoords;
 	Vector2 targetVector;
 public:
 	Snake()
 	{
-		length = 1;
-		Vector2 initialSnakePos;
-		initialSnakePos.x = 0;
-		initialSnakePos.y = 0;
-		snakeCoords.push_back(initialSnakePos);
-		targetVector.x = 0;
-		targetVector.y = 0;
+		Vector2 initialSnakePos = { 0,0 };
+		snakePartsCoords.push_back(initialSnakePos);
+		targetVector = { initialSnakePos };
 	}
 	
 	Snake(Vector2 startingPosVector)
 	{
-		length = 1;
 		Vector2 initialSnakePos = startingPosVector;
-		snakeCoords.push_back(initialSnakePos);
+		snakePartsCoords.push_back(initialSnakePos);
 		targetVector = initialSnakePos;
 	}
 
@@ -44,7 +38,19 @@ public:
 
 	void moveSnake()
 	{
-
+		for (auto iter = snakePartsCoords.rbegin(); iter != snakePartsCoords.rend(); ++iter)
+		{
+			// If iter is snake's head then set it to target vector
+			// Else set part to vector of the part closer to the snake's head
+			if (iter == (snakePartsCoords.rend() - 1))
+			{
+				*iter = targetVector;
+			}
+			else
+			{
+				*iter = *(iter + 1);
+			}
+		}
 	}
 
 	void drawSnake()
