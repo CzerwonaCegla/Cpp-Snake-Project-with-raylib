@@ -2,8 +2,11 @@
 #include <vector>
 #include <raylib.h>
 #include <raymath.h>
+#include <iostream>
 
 #define GRID_WIDTH 50
+#define SNAKE_WINDOW_WIDTH 1300
+#define SNAKE_WINDOW_HEIGHT 800
 
 using namespace std;
 
@@ -26,6 +29,11 @@ public:
 		targetVector = initialSnakePos;
 	}
 
+	int getApplesCollected()
+	{
+		return (snakePartsCoords.size() - 1);
+	}
+
 	Vector2 getTargetVectorFromInput()
 	{
 		Vector2 targetVector = { 0,0 };
@@ -36,8 +44,36 @@ public:
 		return targetVector;
 	}
 
+	bool checkIfInBorders(const Vector2 &tempTarget)
+	{
+		if (tempTarget.x + targetVector.x < 0.0 ||
+		tempTarget.x + targetVector.x >(float)(SNAKE_WINDOW_WIDTH - GRID_WIDTH)) // Check if out of bounds on right or left
+		{
+			return false;
+		}
+		else if (tempTarget.y + targetVector.y < 0.0 ||
+		tempTarget.y + targetVector.y >(float)(SNAKE_WINDOW_HEIGHT - GRID_WIDTH)) // Check if above/below top border and bottom border
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
 	void moveSnake()
 	{
+		Vector2 tempTarget = getTargetVectorFromInput();
+		if (checkIfInBorders(tempTarget))
+		{
+			targetVector += tempTarget;
+		}
+		else
+		{
+			exit(0);
+		}
+		
 		for (auto iter = snakePartsCoords.rbegin(); iter != snakePartsCoords.rend(); ++iter)
 		{
 			// If iter is snake's head then set it to target vector
@@ -55,7 +91,10 @@ public:
 
 	void drawSnake()
 	{
-		
+		for (const auto part : snakePartsCoords)
+		{
+			DrawRectangle(part.x, part.y, GRID_WIDTH, GRID_WIDTH, SKYBLUE);
+		}
 	}
 };
 
