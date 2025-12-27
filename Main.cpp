@@ -4,10 +4,11 @@
 #include <raymath.h>
 #include <iostream>
 #include "GlobalGameParameters.h"
+#include "RenderableObject.h"
 
 using namespace std;
 
-class Snake
+class Snake : RenderableObject
 {
 	vector<Vector2> snakePartsCoords;
 	Vector2 targetVector;
@@ -109,7 +110,7 @@ public:
 	}
 
 	// Loops through all elements in vector and draws them
-	void drawSnake()
+	void drawObject() override
 	{
 		for (const auto part : snakePartsCoords)
 		{
@@ -120,8 +121,7 @@ public:
 
 int main()
 {
-	std::string name = "Snake";
-	const int gridWidth = globalGridWidth;
+	string name = "Snake";
 	SetTargetFPS(1);
 	InitWindow(globalGameWindowWidth, globalGameWindowHeight, name.c_str());
 	// DO NOT TOUCH CODE ABOVE FOR NOW
@@ -141,7 +141,7 @@ int main()
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
-		snake.drawSnake();
+		snake.drawObject();
 
 		EndDrawing();
 		// Draw end ---------------------
