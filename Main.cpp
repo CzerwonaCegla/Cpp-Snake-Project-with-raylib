@@ -3,10 +3,7 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <iostream>
-
-#define GRID_WIDTH 50
-#define SNAKE_WINDOW_WIDTH 1300
-#define SNAKE_WINDOW_HEIGHT 800
+#include "GlobalGameParameters.h"
 
 using namespace std;
 
@@ -21,10 +18,10 @@ class Snake
 	Vector2 getTargetVectorFromInput()
 	{
 		Vector2 localTargetVector = { 0,0 };
-		if (IsKeyDown(KEY_UP)) { localTargetVector.y -= GRID_WIDTH;}
-		else if (IsKeyDown(KEY_DOWN)) { localTargetVector.y += GRID_WIDTH; }
-		else if (IsKeyDown(KEY_RIGHT)) { localTargetVector.x += GRID_WIDTH; }
-		else if (IsKeyDown(KEY_LEFT)) { localTargetVector.x -= GRID_WIDTH; }
+		if (IsKeyDown(KEY_UP)) { localTargetVector.y -= globalGridWidth;}
+		else if (IsKeyDown(KEY_DOWN)) { localTargetVector.y += globalGridWidth; }
+		else if (IsKeyDown(KEY_RIGHT)) { localTargetVector.x += globalGridWidth; }
+		else if (IsKeyDown(KEY_LEFT)) { localTargetVector.x -= globalGridWidth; }
 		if (localTargetVector.x != 0.0 || localTargetVector.y != 0.0)
 		{
 			previouslyAddedToTargetVector = localTargetVector;
@@ -35,12 +32,12 @@ class Snake
 	bool checkIfInBorders(const Vector2& tempTarget)
 	{
 		if ((tempTarget.x + targetVector.x) < 0.0 ||
-			(tempTarget.x + targetVector.x) > (float)(SNAKE_WINDOW_WIDTH - GRID_WIDTH)) // Check if out of bounds on right or left
+			(tempTarget.x + targetVector.x) > (float)(globalGameWindowWidth - globalGridWidth)) // Check if out of bounds on right or left
 		{
 			return false;
 		}
 		else if ((tempTarget.y + targetVector.y) < 0.0 ||
-			(tempTarget.y + targetVector.y) > (float)(SNAKE_WINDOW_HEIGHT - GRID_WIDTH)) // Check if above/below top border and bottom border
+			(tempTarget.y + targetVector.y) > (float)(globalGameWindowHeight - globalGridWidth)) // Check if above/below top border and bottom border
 		{
 			return false;
 		}
@@ -116,7 +113,7 @@ public:
 	{
 		for (const auto part : snakePartsCoords)
 		{
-			DrawRectangle(part.x, part.y, GRID_WIDTH, GRID_WIDTH, BLUE);
+			DrawRectangle(part.x, part.y, globalGridWidth, globalGridWidth, BLUE);
 		}
 	}
 };
@@ -124,9 +121,9 @@ public:
 int main()
 {
 	std::string name = "Snake";
-	const int gridWidth = GRID_WIDTH;
+	const int gridWidth = globalGridWidth;
 	SetTargetFPS(1);
-	InitWindow(SNAKE_WINDOW_WIDTH, SNAKE_WINDOW_HEIGHT, name.c_str());
+	InitWindow(globalGameWindowWidth, globalGameWindowHeight, name.c_str());
 	// DO NOT TOUCH CODE ABOVE FOR NOW
 
 
