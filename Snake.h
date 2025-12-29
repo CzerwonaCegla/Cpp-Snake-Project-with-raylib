@@ -13,6 +13,7 @@ class Snake : RenderableObject
 	Vector2 previouslyAddedToTargetVector;
 	Vector2 tailSpawnPos;
 
+	bool chceckIfSnakeCollidesWithSelf();
 	Vector2 getTargetVectorFromInput();
 	bool checkIfInBorders(const Vector2& tempTarget);
 

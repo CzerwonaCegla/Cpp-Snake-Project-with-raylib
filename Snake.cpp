@@ -63,6 +63,24 @@ void Snake::addSnakePart()
 	snakePartsCoords.push_back(tailSpawnPos);
 }
 
+bool Snake::chceckIfSnakeCollidesWithSelf()
+{
+	if (getApplesCollected() != 0)
+	{
+		for (int i = 0; i <= snakePartsCoords.size() - 1; ++i)
+		{
+			for (int j = i+1; j <= snakePartsCoords.size() - 1; ++j)
+			{
+				if (snakePartsCoords[i] == snakePartsCoords[j])
+				{
+					return true;  
+				}
+			}
+		}
+	}
+	return false;
+}
+
 // Moves snake according to collected input
 void Snake::moveSnake()
 {
@@ -95,6 +113,8 @@ void Snake::moveSnake()
 			snakePartsCoords[i] = snakePartsCoords[i - 1];
 		}
 	}
+
+	if (chceckIfSnakeCollidesWithSelf()) { exit(0); }
 }
 
 // Loops through all elements in snake and draws them
