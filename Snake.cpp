@@ -9,10 +9,6 @@ Vector2 Snake::getTargetVectorFromInput()
 	else if (IsKeyDown(KEY_DOWN)) { localTargetVector.y += globalGridWidth; }
 	else if (IsKeyDown(KEY_RIGHT)) { localTargetVector.x += globalGridWidth; }
 	else if (IsKeyDown(KEY_LEFT)) { localTargetVector.x -= globalGridWidth; }
-	if (localTargetVector.x != 0.0 || localTargetVector.y != 0.0)
-	{
-		previouslyAddedToTargetVector = localTargetVector;
-	}
 	return localTargetVector;
 }
 
@@ -37,10 +33,10 @@ bool Snake::checkIfInBorders(const Vector2& tempTarget)
 
 Snake::Snake()
 {
-	Vector2 initialSnakePos = { 0,0 };
+	Vector2 initialSnakePos = { 0.0,0.0 };
 	snakePartsCoords.push_back(initialSnakePos);
 	targetVector = initialSnakePos;
-	previouslyAddedToTargetVector = { 0,0 };
+	previouslyAddedToTargetVector = { 0.0,0.0 };
 	tailSpawnPos = initialSnakePos;
 }
 
@@ -49,7 +45,7 @@ Snake::Snake(Vector2 startingPosVector)
 	Vector2 initialSnakePos = startingPosVector;
 	snakePartsCoords.push_back(initialSnakePos);
 	targetVector = initialSnakePos;
-	previouslyAddedToTargetVector = { 0,0 };
+	previouslyAddedToTargetVector = { 0.0,0.0 };
 	tailSpawnPos = initialSnakePos;
 }
 
@@ -84,15 +80,24 @@ bool Snake::chceckIfSnakeCollidesWithSelf()
 // Moves snake according to collected input
 void Snake::moveSnake()
 {
-	// Collects input and checks if target of where to move is visible in window
+	// Collects input and checks if target of where to move is visible in window and if the input provided will make the snake reverse into itself
 	Vector2 tempTarget = getTargetVectorFromInput();
-	if (tempTarget.x == 0.0 && tempTarget.y == 0.0)
+	if (!(previouslyAddedToTargetVector.x == 0.0 && previouslyAddedToTargetVector.y == 0.0))
 	{
-		tempTarget = previouslyAddedToTargetVector;
+		if (tempTarget.x == 0.0 && tempTarget.y == 0.0)
+		{
+			tempTarget = previouslyAddedToTargetVector;
+		}
+		if ((tempTarget.x == -previouslyAddedToTargetVector.x) || (tempTarget.y == -previouslyAddedToTargetVector.y))
+		{
+			tempTarget.x = previouslyAddedToTargetVector.x;
+			tempTarget.y = previouslyAddedToTargetVector.y;
+		}
 	}
 	if (checkIfInBorders(tempTarget))
 	{
 		targetVector += tempTarget;
+		previouslyAddedToTargetVector = tempTarget;
 	}
 	else
 	{
