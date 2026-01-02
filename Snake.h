@@ -1,4 +1,5 @@
 #ifndef H_SNAKE
+#define H_SNAKE
 
 #include <vector>
 #include <raylib.h>

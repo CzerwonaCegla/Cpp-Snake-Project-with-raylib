@@ -144,6 +144,7 @@
     <ClCompile Include="Snake.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Apple.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="GlobalGameParameters.h" />
     <ClInclude Include="RenderableObject.h" />
