@@ -1,5 +1,6 @@
 #include "Snake.h"
-
+#include "GlobalGameParameters.h"
+#include <math.h>
 
 // Reads input and returns target vector
 Vector2 Snake::getTargetVectorFromInput()
@@ -33,11 +34,18 @@ bool Snake::checkIfInBorders(const Vector2& tempTarget)
 
 Snake::Snake()
 {
-	Vector2 initialSnakePos = { 0.0,0.0 };
+	// Get more or less center position
+	Vector2 tempVec = { (ceil(float (globalGameWindowWidth / globalGridWidth) / 2.0)) * globalGridWidth,
+		(ceil(float(globalGameWindowHeight / globalGridWidth) / 2.0)) * globalGridWidth };
+	Vector2 initialSnakePos = tempVec;
 	snakePartsCoords.push_back(initialSnakePos);
 	targetVector = initialSnakePos;
-	previouslyAddedToTargetVector = { 0.0,0.0 };
-	tailSpawnPos = initialSnakePos;
+	previouslyAddedToTargetVector = { 50.0 ,0.0 };
+	
+	// Here to spawn a tail after head
+	Vector2 tempVec2 = { initialSnakePos.x - globalGridWidth, initialSnakePos.y };
+	tailSpawnPos = tempVec2;
+	snakePartsCoords.push_back(tailSpawnPos);
 }
 
 Snake::Snake(Vector2 startingPosVector)
@@ -45,8 +53,10 @@ Snake::Snake(Vector2 startingPosVector)
 	Vector2 initialSnakePos = startingPosVector;
 	snakePartsCoords.push_back(initialSnakePos);
 	targetVector = initialSnakePos;
-	previouslyAddedToTargetVector = { 0.0,0.0 };
-	tailSpawnPos = initialSnakePos;
+	previouslyAddedToTargetVector = { 50.0,0.0 };
+	Vector2 tempVec2 = { initialSnakePos.x - globalGridWidth, initialSnakePos.y };
+	tailSpawnPos = tempVec2;
+	snakePartsCoords.push_back(tailSpawnPos);
 }
 
 int Snake::getApplesCollected()
