@@ -26,7 +26,6 @@ int main()
 		{
 			snake.addSnakePart();
 		}
-		snake.moveSnake();
 
 		// Draw start -------------------
 		BeginDrawing();
@@ -36,6 +35,7 @@ int main()
 		apple.drawObject();
 		EndDrawing();
 		// Draw end ---------------------
+		snake.moveSnake();
 	}
 
 
