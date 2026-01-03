@@ -1,6 +1,11 @@
 #include "Snake.h"
-#include "GlobalGameParameters.h"
+
+#include <vector>
 #include <math.h>
+#include <raylib.h>
+#include <raymath.h>
+
+#include "GlobalGameParameters.h"
 
 // Reads input and returns target vector
 Vector2 Snake::getTargetVectorFromInput()

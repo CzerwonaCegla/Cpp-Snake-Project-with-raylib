@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <raylib.h>
-#include <raymath.h>
-#include "GlobalGameParameters.h"
 #include "RenderableObject.h"
 
 class Snake : RenderableObject

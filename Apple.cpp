@@ -1,5 +1,6 @@
-#include <raylib.h>
 #include "Apple.h";
+
+#include <raylib.h>
 #include "GlobalGameParameters.h"
 
 Apple::Apple()

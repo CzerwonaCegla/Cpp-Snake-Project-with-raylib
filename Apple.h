@@ -1,6 +1,7 @@
 #ifndef H_APPLE
 #define H_APPLE
 
+#include <raylib.h>
 #include "RenderableObject.h"
 
 class Apple : RenderableObject
