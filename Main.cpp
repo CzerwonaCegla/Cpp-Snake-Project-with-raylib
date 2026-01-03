@@ -6,6 +6,7 @@
 #include "GlobalGameParameters.h"
 #include "RenderableObject.h"
 #include "Snake.h"
+#include "Apple.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ int main()
 	InitWindow(globalGameWindowWidth, globalGameWindowHeight, name.c_str());
 	// DO NOT TOUCH CODE ABOVE FOR NOW
 
-
+	Apple apple;
 	Snake snake;
 	// MAIN GAME LOOP
 	while (!WindowShouldClose())
@@ -32,7 +33,7 @@ int main()
 
 		ClearBackground(DARKGREEN);
 		snake.drawObject();
-
+		apple.drawObject();
 		EndDrawing();
 		// Draw end ---------------------
 	}
