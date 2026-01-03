@@ -131,3 +131,8 @@ void Snake::drawObject()
 		DrawRectangle(part.x, part.y, globalGridWidth, globalGridWidth, BLUE);
 	}
 }
+
+std::vector<Vector2> Snake::getSnakeCoords()
+{
+	return snakePartsCoords;
+}

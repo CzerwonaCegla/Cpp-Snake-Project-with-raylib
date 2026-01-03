@@ -25,6 +25,7 @@ public:
 	void addSnakePart();
 	void moveSnake();
 	void drawObject() override;
+	std::vector<Vector2> getSnakeCoords();
 };
 
 #endif // !H_SNAKE
