@@ -151,3 +151,15 @@ std::vector<Vector2> Snake::getSnakeCoords()
 {
 	return snakePartsCoords;
 }
+
+bool Snake::checkIfCoordsAreInSnake(Vector2 coords)
+{
+	for (const auto &i : snakePartsCoords)
+	{
+		if (i == coords)
+		{
+			return true;
+		}
+	}
+	return false;
+}

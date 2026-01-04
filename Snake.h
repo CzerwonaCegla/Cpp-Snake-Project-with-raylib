@@ -24,6 +24,7 @@ public:
 	void moveSnake();
 	void drawObject() override;
 	std::vector<Vector2> getSnakeCoords();
+	bool checkIfCoordsAreInSnake(Vector2 coords);
 };
 
 #endif // !H_SNAKE

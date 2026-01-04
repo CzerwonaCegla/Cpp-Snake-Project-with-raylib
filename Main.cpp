@@ -19,13 +19,31 @@ int main()
 
 	Apple apple;
 	Snake snake;
+	// Only here for the rare occasion if starting apple spawns directly inside the snake
+	while (snake.checkIfCoordsAreInSnake(apple.getCoordinates()))
+	{
+		apple.setNewCoordinates();
+	}
+
 	// MAIN GAME LOOP
 	while (!WindowShouldClose())
 	{
-		if (IsKeyDown(KEY_SPACE))
+		// Check for apple and snake collision
+		Vector2 gameAppleCoords = apple.getCoordinates();
+		if(snake.checkIfCoordsAreInSnake(apple.getCoordinates()))
 		{
 			snake.addSnakePart();
+			while (snake.checkIfCoordsAreInSnake(apple.getCoordinates()))
+			{
+				apple.setNewCoordinates();
+			}
 		}
+
+		// To be removed later when testing is done
+		/*if (IsKeyDown(KEY_SPACE))
+		{
+			snake.addSnakePart();
+		}*/
 
 		// Draw start -------------------
 		BeginDrawing();
