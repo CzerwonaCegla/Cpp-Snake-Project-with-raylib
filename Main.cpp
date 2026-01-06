@@ -24,7 +24,7 @@ int main()
 	{
 		apple.setNewCoordinates();
 	}
-
+	Texture2D temp = LoadTexture("Textures\\SnakeHead.png");
 	// MAIN GAME LOOP
 	while (!WindowShouldClose())
 	{
@@ -45,15 +45,16 @@ int main()
 			snake.addSnakePart();
 		}*/
 
+		snake.moveSnake();
 		// Draw start -------------------
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
-		snake.drawObject();
-		apple.drawObject();
+		/*snake.drawObject();
+		apple.drawObject();*/
+		DrawTextureEx(temp, { 400,400 }, 180, 1, WHITE);
 		EndDrawing();
 		// Draw end ---------------------
-		snake.moveSnake();
 	}
 
 

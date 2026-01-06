@@ -4,7 +4,7 @@
 #include <math.h>
 #include <raylib.h>
 #include <raymath.h>
-
+#include <map>
 #include "GlobalGameParameters.h"
 
 // Reads input and returns target vector
@@ -37,6 +37,18 @@ bool Snake::checkIfInBorders(const Vector2& tempTarget)
 	}
 }
 
+void Snake::loadSnakeTextures()
+{
+	snakeHead = LoadTexture("Textures\\SnakeHead.png");
+	snakeStraight = LoadTexture("Textures\\SnakeStraight.png");
+	snakeTurn = LoadTexture("Textures\\SnakeTurn.png");
+	snakeTail = LoadTexture("Textures\\SnakeTail.png");
+	/*snakePartTextures.emplace(std::make_pair("SnakeHead", snakeHead));
+	snakePartTextures.emplace(std::make_pair("SnakeStraight", snakeStraight));
+	snakePartTextures.emplace(std::make_pair("SnakeTurn", snakeTurn));
+	snakePartTextures.emplace(std::make_pair("SnakeTail", snakeTail));*/
+}
+
 Snake::Snake()
 {
 	// Get more or less center position
@@ -51,6 +63,7 @@ Snake::Snake()
 	Vector2 tempVec2 = { initialSnakePos.x - globalGridWidth, initialSnakePos.y };
 	tailSpawnPos = tempVec2;
 	snakePartsCoords.push_back(tailSpawnPos);
+	loadSnakeTextures();
 }
 
 Snake::Snake(Vector2 startingPosVector)
@@ -62,6 +75,7 @@ Snake::Snake(Vector2 startingPosVector)
 	Vector2 tempVec2 = { initialSnakePos.x - globalGridWidth, initialSnakePos.y };
 	tailSpawnPos = tempVec2;
 	snakePartsCoords.push_back(tailSpawnPos);
+	loadSnakeTextures();
 }
 
 int Snake::getApplesCollected()
@@ -141,9 +155,10 @@ void Snake::moveSnake()
 // Inherited from RenderableObject
 void Snake::drawObject()
 {
-	for (const auto part : snakePartsCoords)
+	for (int i = 0; i <= (snakePartsCoords.size() - 1); ++i)
 	{
-		DrawRectangle(part.x, part.y, globalGridWidth, globalGridWidth, BLUE);
+		//DrawRectangle(part.x, part.y, globalGridWidth, globalGridWidth, BLUE);
+		drawSnakePart(i);
 	}
 }
 
@@ -162,4 +177,105 @@ bool Snake::checkIfCoordsAreInSnake(Vector2 coords)
 		}
 	}
 	return false;
+}
+
+void Snake::drawSnakePart(int placeInVector)
+{
+	int deg = 0;
+	// Snake head
+	if (placeInVector == 0)
+	{
+		// Compares position of the next part after head to position of head and sets draws rotated texture accordingly
+		if ((snakePartsCoords[1].x - snakePartsCoords[0].x) > 0)
+		{
+			deg = 0;
+		}
+		else if ((snakePartsCoords[1].x - snakePartsCoords[0].x) < 0)
+		{
+			deg = 180;
+		}
+		else if ((snakePartsCoords[1].y - snakePartsCoords[0].y) > 0)
+		{
+			deg = 90;
+		}
+		else if ((snakePartsCoords[1].y - snakePartsCoords[0].y) < 0)
+		{
+			deg = 270;
+		}
+		DrawTextureEx(snakeHead, snakePartsCoords[placeInVector], deg, 1, WHITE);
+	}
+	// Snake tail
+	else if (placeInVector == (snakePartsCoords.size() - 1))
+	{
+		// Compares position of the part before the tail to determine tail's rotation
+		if (snakePartsCoords[snakePartsCoords.size() - 2].x - snakePartsCoords[snakePartsCoords.size() - 1].x > 0)
+		{
+			deg = 180;
+		}
+		else if (snakePartsCoords[snakePartsCoords.size() - 2].x - snakePartsCoords[snakePartsCoords.size() - 1].x < 0)
+		{
+			deg = 0;
+		}
+		else if (snakePartsCoords[snakePartsCoords.size() - 2].y - snakePartsCoords[snakePartsCoords.size() - 1].y > 0)
+		{
+			deg = 270;
+		}
+		else if (snakePartsCoords[snakePartsCoords.size() - 2].y - snakePartsCoords[snakePartsCoords.size() - 1].y < 0)
+		{
+			deg = 90;
+		}
+		DrawTextureEx(snakeTail, snakePartsCoords[placeInVector], deg, 1, WHITE);
+	}
+	else
+	{
+		//std::string texture;
+
+		// If the two bordering vector2 coordinates are in a straight line
+		if (snakePartsCoords[placeInVector - 1].x == snakePartsCoords[placeInVector + 1].x)
+		{
+			//texture = "SnakeStraight";
+			deg = 0;
+			DrawTextureEx(snakeTurn, snakePartsCoords[placeInVector], deg, 1, WHITE);
+		}
+		else if (snakePartsCoords[placeInVector - 1].y == snakePartsCoords[placeInVector + 1].y)
+		{
+			//texture = "SnakeStraight";
+			deg = 90;
+			DrawTextureEx(snakeTurn, snakePartsCoords[placeInVector], deg, 1, WHITE);
+		}
+		// If the current vector2 coordinate is a turn
+		// For up-right turn
+		else if (((snakePartsCoords[placeInVector + 1].x - snakePartsCoords[placeInVector].x) > 0) && ((snakePartsCoords[placeInVector - 1].y - snakePartsCoords[placeInVector].y) < 0))
+		{
+			//texture = "SnakeTurn";
+			deg = 270;
+			DrawTextureEx(snakeTurn, snakePartsCoords[placeInVector], deg, 1, WHITE);
+		}
+		// For down-right turn
+		else if ((snakePartsCoords[placeInVector + 1].x - snakePartsCoords[placeInVector].x > 0) && (snakePartsCoords[placeInVector - 1].y - snakePartsCoords[placeInVector].y) > 0)
+		{
+			//texture = "SnakeTurn";
+			deg = 0;
+			DrawTextureEx(snakeTurn, snakePartsCoords[placeInVector], deg, 1, WHITE);
+		}
+		// For up-left turn
+		else if ((snakePartsCoords[placeInVector + 1].x - snakePartsCoords[placeInVector].x < 0) && (snakePartsCoords[placeInVector - 1].y - snakePartsCoords[placeInVector].y) < 0)
+		{
+			//texture = "SnakeTurn";
+			deg = 180;
+			DrawTextureEx(snakeTurn, snakePartsCoords[placeInVector], deg, 1, WHITE);
+		}
+		// For down-left turn
+		else if ((snakePartsCoords[placeInVector + 1].x - snakePartsCoords[placeInVector].x < 0) && (snakePartsCoords[placeInVector - 1].y - snakePartsCoords[placeInVector].y) > 0)
+		{
+			//texture = "SnakeTurn";
+			deg = 90;
+			DrawTextureEx(snakeTurn, snakePartsCoords[placeInVector], deg, 1, WHITE);
+		}
+		else
+		{
+			DrawRectangle(snakePartsCoords[placeInVector].x, snakePartsCoords[placeInVector].y, 50, 50, RED);
+		}
+		//DrawTextureEx(snakePartTextures.at(texture), snakePartsCoords[placeInVector], deg, 1, WHITE);
+	}
 }
