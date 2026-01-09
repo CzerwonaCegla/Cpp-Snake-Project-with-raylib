@@ -182,6 +182,7 @@ bool Snake::checkIfCoordsAreInSnake(Vector2 coords)
 void Snake::drawSnakePart(int placeInVector)
 {
 	int deg = 0;
+	Vector2 offset = { 0.0, 0.0 };
 	// Snake head
 	if (placeInVector == 0)
 	{
@@ -207,6 +208,7 @@ void Snake::drawSnakePart(int placeInVector)
 	// Snake tail
 	else if (placeInVector == (snakePartsCoords.size() - 1))
 	{
+
 		// Compares position of the part before the tail to determine tail's rotation
 		if (snakePartsCoords[snakePartsCoords.size() - 2].x - snakePartsCoords[snakePartsCoords.size() - 1].x > 0)
 		{
