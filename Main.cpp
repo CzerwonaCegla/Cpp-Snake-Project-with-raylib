@@ -13,7 +13,8 @@ using namespace std;
 int main()
 {
 	string name = "Snake";
-	SetTargetFPS(3);
+	constexpr int targetFps = 120;
+	SetTargetFPS(targetFps);
 	InitWindow(globalGameWindowWidth, globalGameWindowHeight, name.c_str());
 	// DO NOT TOUCH CODE ABOVE FOR NOW
 
@@ -25,11 +26,16 @@ int main()
 		apple.setNewCoordinates();
 	}
 
+	constexpr int framesPerMove = (targetFps / 4);
+	int currentFrame = 1;
+
 	//Texture2D temp = LoadTexture("Textures\\SnakeHead.png");
 	// 
 	// MAIN GAME LOOP
+	Vector2 currentMove = { 0.0, 0.0 };
 	while (!WindowShouldClose())
 	{
+		currentMove = snake.getTargetVectorFromInput();
 		// Check for apple and snake collision
 		Vector2 gameAppleCoords = apple.getCoordinates();
 		if(snake.checkIfCoordsAreInSnake(apple.getCoordinates()))
@@ -47,6 +53,7 @@ int main()
 			snake.addSnakePart();
 		}*/
 
+
 		// Draw start -------------------
 		BeginDrawing();
 
@@ -55,8 +62,16 @@ int main()
 		snake.drawObject();
 		//DrawTextureEx(temp, { 400,400 }, 180, 1, WHITE);
 		EndDrawing();
-		snake.moveSnake();
 		// Draw end ---------------------
+		if ((currentFrame % framesPerMove) == 0)
+		{
+			snake.moveSnake(currentMove);
+			currentFrame = 1;
+		}
+		else
+		{
+			++currentFrame;
+		}
 	}
 
 

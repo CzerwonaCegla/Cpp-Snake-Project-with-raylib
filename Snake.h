@@ -22,15 +22,16 @@ class Snake : RenderableObject
 
 	void loadSnakeTextures();
 	bool chceckIfSnakeCollidesWithSelf();
-	Vector2 getTargetVectorFromInput();
 	bool checkIfInBorders(const Vector2& tempTarget);
 
 public:
 	Snake();
 	Snake(Vector2 startingPosVector);
+	Vector2 getTargetVectorFromInput();
 	int getApplesCollected();
 	void addSnakePart();
 	void moveSnake();
+	void moveSnake(const Vector2 &moveToVector);
 	void drawObject() override;
 	std::vector<Vector2> getSnakeCoords();
 	bool checkIfCoordsAreInSnake(Vector2 coords);

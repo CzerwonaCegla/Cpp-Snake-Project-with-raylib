@@ -311,4 +311,48 @@ void Snake::drawSnakePart(int placeInVector)
 		}
 		//DrawTextureEx(snakePartTextures.at(texture), snakePartsCoords[placeInVector], deg, 1, WHITE);
 	}
+
+}
+
+void Snake::moveSnake(const Vector2 &moveToVector)
+{
+	Vector2 tempTarget = moveToVector;
+	if (!(previouslyAddedToTargetVector.x == 0.0 && previouslyAddedToTargetVector.y == 0.0))
+	{
+		if (tempTarget.x == 0.0 && tempTarget.y == 0.0)
+		{
+			tempTarget = previouslyAddedToTargetVector;
+		}
+		if ((tempTarget.x == -previouslyAddedToTargetVector.x) || (tempTarget.y == -previouslyAddedToTargetVector.y))
+		{
+			tempTarget.x = previouslyAddedToTargetVector.x;
+			tempTarget.y = previouslyAddedToTargetVector.y;
+		}
+	}
+	if (checkIfInBorders(tempTarget))
+	{
+		targetVector += tempTarget;
+		previouslyAddedToTargetVector = tempTarget;
+	}
+	else
+	{
+		exit(0);
+	}
+
+	for (int i = (snakePartsCoords.size() - 1); i >= 0; --i)
+	{
+		// If iter is snake's head then set it to target vector
+		// Else set part to vector of the part closer to the snake's head
+		if (i == snakePartsCoords.size() - 1) { tailSpawnPos = snakePartsCoords[i]; }
+		if (i == 0)
+		{
+			snakePartsCoords[0] = targetVector;
+		}
+		else
+		{
+			snakePartsCoords[i] = snakePartsCoords[i - 1];
+		}
+	}
+
+	if (chceckIfSnakeCollidesWithSelf()) { exit(0); }
 }
