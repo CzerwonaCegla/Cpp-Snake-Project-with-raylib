@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
 	string name = "Snake";
-	SetTargetFPS(2);
+	SetTargetFPS(3);
 	InitWindow(globalGameWindowWidth, globalGameWindowHeight, name.c_str());
 	// DO NOT TOUCH CODE ABOVE FOR NOW
 
@@ -47,15 +47,15 @@ int main()
 			snake.addSnakePart();
 		}*/
 
-		snake.moveSnake();
 		// Draw start -------------------
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
-		snake.drawObject();
 		apple.drawObject();
+		snake.drawObject();
 		//DrawTextureEx(temp, { 400,400 }, 180, 1, WHITE);
 		EndDrawing();
+		snake.moveSnake();
 		// Draw end ---------------------
 	}
 
