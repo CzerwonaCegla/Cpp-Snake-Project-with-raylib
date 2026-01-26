@@ -6,9 +6,12 @@
 #include <vector>
 #include <raylib.h>
 #include "RenderableObject.h"
+#include "GameState.h"
 
 class Snake : RenderableObject
 {
+	gameWinState *currentState;
+
 	std::vector<Vector2> snakePartsCoords;
 	Vector2 targetVector;
 	Vector2 previouslyAddedToTargetVector;
@@ -25,6 +28,7 @@ class Snake : RenderableObject
 	bool checkIfInBorders(const Vector2& tempTarget);
 
 public:
+	void getGameStatePtr(gameWinState *state);
 	Snake();
 	Snake(Vector2 startingPosVector);
 	Vector2 getTargetVectorFromInput();

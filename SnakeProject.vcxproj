@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Apple.h" />
     <ClInclude Include="Display.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="GameUtilFunctions.h" />
     <ClInclude Include="GlobalGameParameters.h" />
     <ClInclude Include="RenderableObject.h" />

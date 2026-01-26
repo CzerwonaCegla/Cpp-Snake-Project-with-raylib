@@ -7,6 +7,7 @@
 #include "RenderableObject.h"
 #include "Snake.h"
 #include "Apple.h"
+#include "GameState.h"
 
 #include "GameUtilFunctions.h"
 
@@ -14,10 +15,13 @@ using namespace std;
 
 int main()
 {
+	//enum class gameWinState { None, Win, Lose };
+	gameWinState state = gameWinState::None;
 	string name = "Snake";
 	constexpr int targetFps = 120;
 	SetTargetFPS(targetFps);
 	InitWindow(globalGameWindowWidth, globalGameWindowHeight, name.c_str());
+	GameUtils utils;
 	// DO NOT TOUCH CODE ABOVE FOR NOW
 
 	Apple apple;
@@ -27,7 +31,7 @@ int main()
 	{
 		apple.setNewCoordinates();
 	}
-
+	snake.getGameStatePtr(&state);
 	constexpr int framesPerMove = (targetFps / 3);
 	int currentFrame = 1;
 
@@ -60,29 +64,37 @@ int main()
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
-		drawBackgroundGrid();
+		utils.drawBackgroundGrid();
+
 		apple.drawObject();
 		snake.drawObject();
 		//DrawTextureEx(temp, { 400,400 }, 180, 1, WHITE);
 		switch (state)
 		{
-			case gameWinState::Lose:
+		case gameWinState::Lose:
     		DrawText("You Lose!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
     		break;
-			case gameWinState::Win:
+		case gameWinState::Win:
     		DrawText("You Win!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
     		break;
 		}
 		EndDrawing();
 		// Draw end ---------------------
-		if ((currentFrame % framesPerMove) == 0)
+		if (state != gameWinState::None)
 		{
-			snake.moveSnake(currentMove);
-			currentFrame = 1;
+			utils.gameEnd();
 		}
 		else
 		{
-			++currentFrame;
+			if ((currentFrame % framesPerMove) == 0)
+			{
+				snake.moveSnake(currentMove);
+				currentFrame = 1;
+			}
+			else
+			{
+				++currentFrame;
+			}
 		}
 	}
 

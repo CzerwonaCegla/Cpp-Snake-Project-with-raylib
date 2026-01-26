@@ -3,10 +3,15 @@
 #include <cstdlib>
 #include "GlobalGameParameters.h"
 
-void drawBackgroundGrid()
+GameUtils::GameUtils()
+{
+    backgroundTexture = LoadTexture("Textures\\GridTile.png");
+}
+
+
+void GameUtils::drawBackgroundGrid()
 {
     Vector2 placementVector = { 0,0 };
-    Texture backgroundTexture = LoadTexture("Textures\\GridTile.png");
     constexpr int xMult = globalGameWindowWidth / globalGridWidth;
     constexpr int yMult = globalGameWindowHeight / globalGridWidth;
     for (int i = 0; i < yMult; ++i)
@@ -22,7 +27,7 @@ void drawBackgroundGrid()
 }
 
 
-void gameEnd()
+void GameUtils::gameEnd()
 {
     WaitTime(2.0);
     CloseWindow();

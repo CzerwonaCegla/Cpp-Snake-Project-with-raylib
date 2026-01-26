@@ -38,6 +38,11 @@ bool Snake::checkIfInBorders(const Vector2& tempTarget)
 	}
 }
 
+void Snake::getGameStatePtr(gameWinState *state)
+{
+	currentState = state;
+}
+
 void Snake::loadSnakeTextures()
 {
 	snakeHead = LoadTexture("Textures\\SnakeHead.png");
@@ -131,7 +136,7 @@ void Snake::moveSnake()
 	}
 	else
 	{
-		exit(0);
+		*currentState = gameWinState::Lose;
 	}
 
 	for (int i = (snakePartsCoords.size() - 1); i >= 0; --i)
@@ -149,7 +154,7 @@ void Snake::moveSnake()
 		}
 	}
 
-	if (chceckIfSnakeCollidesWithSelf()) { exit(0); }
+	if (chceckIfSnakeCollidesWithSelf()) { *currentState = gameWinState::Lose; }
 }
 
 // Loops through all elements in snake and draws them
@@ -336,7 +341,7 @@ void Snake::moveSnake(const Vector2 &moveToVector)
 	}
 	else
 	{
-		exit(0);
+		*currentState = gameWinState::Lose;
 	}
 
 	for (int i = (snakePartsCoords.size() - 1); i >= 0; --i)
@@ -354,5 +359,5 @@ void Snake::moveSnake(const Vector2 &moveToVector)
 		}
 	}
 
-	if (chceckIfSnakeCollidesWithSelf()) { exit(0); }
+	if (chceckIfSnakeCollidesWithSelf()) { *currentState = gameWinState::Lose; }
 }
