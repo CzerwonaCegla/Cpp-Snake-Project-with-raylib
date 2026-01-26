@@ -14,9 +14,6 @@ using namespace std;
 
 int main()
 {
-	enum class gameWinState {None, Win, Lose};
-	gameWinState state = gameWinState::None;
-
 	string name = "Snake";
 	constexpr int targetFps = 120;
 	SetTargetFPS(targetFps);
@@ -67,6 +64,15 @@ int main()
 		apple.drawObject();
 		snake.drawObject();
 		//DrawTextureEx(temp, { 400,400 }, 180, 1, WHITE);
+		switch (state)
+		{
+			case gameWinState::Lose:
+    		DrawText("You Lose!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
+    		break;
+			case gameWinState::Win:
+    		DrawText("You Win!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
+    		break;
+		}
 		EndDrawing();
 		// Draw end ---------------------
 		if ((currentFrame % framesPerMove) == 0)
