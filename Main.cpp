@@ -8,6 +8,8 @@
 #include "Snake.h"
 #include "Apple.h"
 
+#include "GameUtilFunctions.h"
+
 using namespace std;
 
 int main()
@@ -26,7 +28,7 @@ int main()
 		apple.setNewCoordinates();
 	}
 
-	constexpr int framesPerMove = (targetFps / 4);
+	constexpr int framesPerMove = (targetFps / 3);
 	int currentFrame = 1;
 
 	//Texture2D temp = LoadTexture("Textures\\SnakeHead.png");
@@ -58,6 +60,7 @@ int main()
 		BeginDrawing();
 
 		ClearBackground(DARKGREEN);
+		drawBackgroundGrid();
 		apple.drawObject();
 		snake.drawObject();
 		//DrawTextureEx(temp, { 400,400 }, 180, 1, WHITE);
