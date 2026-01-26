@@ -1,5 +1,6 @@
 #include "GameUtilFunctions.h"
 #include <raylib.h>
+#include <cstdlib>
 #include "GlobalGameParameters.h"
 
 void drawBackgroundGrid()
@@ -21,13 +22,9 @@ void drawBackgroundGrid()
 }
 
 
-void gameEndLose()
+void gameEnd()
 {
-
-}
-
-
-void gameEndWin()
-{
-
+    WaitTime(2.0);
+    CloseWindow();
+    exit(0);
 }
