@@ -14,6 +14,9 @@ using namespace std;
 
 int main()
 {
+	enum class gameWinState {None, Win, Lose};
+	gameWinState state = gameWinState::None;
+
 	string name = "Snake";
 	constexpr int targetFps = 120;
 	SetTargetFPS(targetFps);
