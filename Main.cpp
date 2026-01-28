@@ -22,6 +22,9 @@ int main()
 	constexpr int targetFps = 120;
 	SetTargetFPS(targetFps);
 	InitWindow(globalGameWindowWidth, globalGameWindowHeight, name.c_str());
+	const int loseTextWidth = MeasureText("You Lose!", 50);
+	const int winTextWidth = MeasureText("You Win!", 50);
+	const int fontSize = 50;
 	GameUtils utils;
 	// DO NOT TOUCH CODE ABOVE FOR NOW
 
@@ -80,16 +83,18 @@ int main()
 
 		apple.drawObject();
 		snake.drawObject();
+		//DrawText("You Win!", (int)(globalGameWindowWidth * (2.0 / 6.0)), (int)(globalGameWindowHeight * (2.0 / 6.0)), 50, WHITE);
 		//DrawTextureEx(temp, { 400,400 }, 180, 1, WHITE);
 		switch (state)
 		{
 		case gameWinState::Lose:
-    		DrawText("You Lose!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
-			std::cerr << "YOU LOSE";
+			//int textWidth = MeasureText("You Lose!", 50);
+			DrawText("You Lose!", (int)(globalGameWindowWidth - loseTextWidth) / 2, (int)(globalGameWindowHeight - fontSize) / 2, fontSize, WHITE);
+			//std::cerr << "YOU LOSE";
     		break;
 		case gameWinState::Win:
-    		DrawText("You Win!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
-			std::cerr << "YOU WIN";
+    		DrawText("You Win!", (int)(globalGameWindowWidth - winTextWidth) / 2, (int)(globalGameWindowHeight - fontSize) / 2, fontSize, WHITE);
+			//std::cerr << "YOU WIN";
     		break;
 		}
 		EndDrawing();
