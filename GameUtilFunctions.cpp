@@ -29,7 +29,7 @@ void GameUtils::drawBackgroundGrid()
 
 void GameUtils::gameEnd()
 {
-    WaitTime(2.0);
+    WaitTime(3.0);
     CloseWindow();
     exit(0);
 }

@@ -15,6 +15,7 @@ using namespace std;
 
 int main()
 {
+	constexpr int maxApplesCollected = ((globalGameWindowWidth / globalGridWidth) * (globalGameWindowHeight / globalGridWidth)) - 1;
 	//enum class gameWinState { None, Win, Lose };
 	gameWinState state = gameWinState::None;
 	string name = "Snake";
@@ -32,7 +33,7 @@ int main()
 		apple.setNewCoordinates();
 	}
 	snake.getGameStatePtr(&state);
-	constexpr int framesPerMove = (targetFps / 3);
+	constexpr int framesPerMove = (targetFps / 2);
 	int currentFrame = 1;
 
 	//Texture2D temp = LoadTexture("Textures\\SnakeHead.png");
@@ -44,12 +45,23 @@ int main()
 		currentMove = snake.getTargetVectorFromInput();
 		// Check for apple and snake collision
 		Vector2 gameAppleCoords = apple.getCoordinates();
+		if (snake.getApplesCollected() == maxApplesCollected)
+		{
+			state = gameWinState::Win;
+		}
 		if(snake.checkIfCoordsAreInSnake(apple.getCoordinates()))
 		{
 			snake.addSnakePart();
-			while (snake.checkIfCoordsAreInSnake(apple.getCoordinates()))
+			if (snake.getApplesCollected() == maxApplesCollected)
 			{
-				apple.setNewCoordinates();
+				state = gameWinState::Win;
+			}
+			if (state == gameWinState::None)
+			{
+				while (snake.checkIfCoordsAreInSnake(apple.getCoordinates()))
+				{
+					apple.setNewCoordinates();
+				}
 			}
 		}
 
@@ -73,9 +85,11 @@ int main()
 		{
 		case gameWinState::Lose:
     		DrawText("You Lose!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
+			std::cerr << "YOU LOSE";
     		break;
 		case gameWinState::Win:
     		DrawText("You Win!", (int)(globalGameWindowWidth * (2.0 / 5.0)), (int)(globalGameWindowHeight * (2.0 / 5.0)), 50, WHITE);
+			std::cerr << "YOU WIN";
     		break;
 		}
 		EndDrawing();
