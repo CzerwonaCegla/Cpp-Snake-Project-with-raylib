@@ -36,7 +36,7 @@ int main()
 		apple.setNewCoordinates();
 	}
 	snake.getGameStatePtr(&state);
-	constexpr int framesPerMove = (targetFps / 2);
+	constexpr int framesPerMove = (targetFps / 3);
 	int currentFrame = 1;
 
 	//Texture2D temp = LoadTexture("Textures\\SnakeHead.png");
